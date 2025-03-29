@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Market & Investment Hub</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Lora:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+      /* Video Embed Styles */
+      .video-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+      }
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      .video-wrapper {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .video-wrapper h3 {
+        padding: 1rem;
+        margin: 0;
+        background: #f8fafc;
+        border-bottom: 1px solid #e1e5eb;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#basics">Basics</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#tips">Tips</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#chat" id="ask-ai-link">Ask AI</a></li>
+      </ul>
+    </nav>
+
+    <header id="home">
+      <div class="hero-overlay">
+        <h1>Stock Market & Investment Hub</h1>
+        <p>Unlock the Power of Wealth Creation</p>
+      </div>
+    </header>
+
+    <div class="container" id="basics">
+      <h2>Investment Basics</h2>
+      <p>Investing is about making your money grow over time. Here's a quick guide to get you started:</p>
+      <button class="collapsible">Business Investment</button>
+      <div class="content">
+        <p>Putting money into a business—yours or someone else's—can yield high returns. Think startups, franchises, or small ventures. It's riskier but offers control and big rewards if successful.</p>
+      </div>
+      <button class="collapsible">Stock Market Investment</button>
+      <div class="content">
+        <p>Buy shares of companies on the stock market. When they grow, your investment does too. It's less hands-on and perfect for long-term wealth building.</p>
+      </div>
+      <div class="motivation">
+        <p>"Don't wait to buy stocks; buy stocks and wait." – Warren Buffett</p>
+      </div>
+      <div class="marquee">
+        <marquee>Invest today, thrive tomorrow! | Knowledge is your best investment. | Patience pays in the market!</marquee>
+      </div>
+      <h2>Why Invest?</h2>
+      <p>Beat inflation, secure your future, and achieve financial freedom. Whether it's for a house, retirement, or your kids' education, investing is the path forward.</p>
+    </div>
+
+    <div class="container" id="videos">
+      <h2>Learn from Videos</h2>
+      <p>Explore these expert-led videos to master investing:</p>
+      <div class="video-grid">
+        <div class="video-wrapper">
+          <h3>Investing 101:</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/qIw-yFC-HNU?si=z5P5QIcWgeWlGH8y" title="Investing Basics" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <h3>Business Investment Tips:</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/Uw_QyeHo8f0?si=My_sE7qi5rg-Gnic" title="Advanced Investment Strategies" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <h3>Stock Market Basics:</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/p7HKvqRI_Bo?si=_qdfzgaMTo-Ak8cc" title="Market Analysis Techniques" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <h3>Advanced Stock Strategies:</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/e-QmGJU1XYc?si=VDxfERipqqi3BoEH" title="Portfolio Management" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+          </div>
+        </div>
+        <div class="video-wrapper">
+          <h3>How to pick stocks:</h3>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/tmryHfunyQ4?si=ASFbEIX-OEy5tkXA" title="Risk Assessment" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" id="tips">
+      <h2>Top Investment Tips</h2>
+      <div class="tips">
+        <ul>
+          <li><strong>Start Early:</strong> Time is your biggest asset.</li>
+          <li><strong>Research Well:</strong> Know what you're investing in.</li>
+          <li><strong>Diversify:</strong> Spread your risk across assets.</li>
+          <li><strong>Stay Calm:</strong> Markets fluctuate—don't panic.</li>
+        </ul>
+      </div>
+      <div class="motivation">
+        <p>"The stock market is a device for transferring money from the impatient to the patient." – Warren Buffett</p>
+      </div>
+    </div>
+
+    <div class="container" id="resources">
+      <h2>Resources</h2>
+      <p>Boost your investment knowledge with these tools and articles:</p>
+      <ul>
+        <li><a href="https://www.investopedia.com" target="_blank">Investopedia</a> - Comprehensive financial education.</li>
+        <li><a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a> - Real-time stock data and news.</li>
+        <li><a href="https://www.bloomberg.com" target="_blank">Bloomberg</a> - Market insights and analysis.</li>
+      </ul>
+    </div>
+
+    <div class="container" id="faq">
+      <h2>Frequently Asked Questions</h2>
+      <button class="collapsible">What is a stock?</button>
+      <div class="content">
+        <p>A stock is a share in the ownership of a company. When you buy a stock, you own a small piece of that company and can benefit from its growth.</p>
+      </div>
+      <button class="collapsible">How much money do I need to start investing?</button>
+      <div class="content">
+        <p>You can start with as little as $10! Many platforms offer fractional shares, making investing accessible to everyone.</p>
+      </div>
+      <button class="collapsible">Is investing risky?</button>
+      <div class="content">
+        <p>Yes, all investments carry some risk, but diversification and research can help manage it.</p>
+      </div>
+    </div>
+
+    <div id="chatbot">
+      <div class="chat-header">
+        <h3>Ask the Investment AI</h3>
+        <button id="minimize-btn">-</button>
+        <button id="close-btn">×</button>
+      </div>
+      <div id="chat-output"></div>
+      <input type="text" id="chat-input" placeholder="Ask about stocks or investments..." />
+    </div>
+
+    <button id="chatbot-toggle" class="floating-btn">💬</button>
+
+    <footer>
+      <p>© 2025 Stock Market & Investment Hub</p>
+      <p><a href="https://www.xai.com" target="_blank">Discover xAI</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      console.log("index.html: JavaScript is loading...");
+    </script>
+  </body>
+</html>
