@@ -1,277 +1,93 @@
-/* Fallback to detect if CSS isn’t loading */
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f7f2;
-    color: #2d3748;
-    line-height: 1.8;
-}
-body.no-css {
-    color: red;
+console.log("script.js: JavaScript file loaded successfully!");
+
+// Collapsible Sections
+const collapsibles = document.getElementsByClassName("collapsible");
+for (let i = 0; i < collapsibles.length; i++) {
+    collapsibles[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+    });
 }
 
-/* Navigation */
-/* Navigation */
-nav {
-    background-color: #1d4e89;
-    padding: 12px 10px; /* Reduced padding */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+// Chatbot with Gemini API
+const chatOutput = document.getElementById("chat-output");
+const chatInput = document.getElementById("chat-input");
+const apiKey = "AIzaSyAuJ_OIy81PngLS_5OEJzTaZWT9Xav8cMw"; // Your Gemini API key
+const chatbot = document.getElementById("chatbot");
+const minimizeBtn = document.getElementById("minimize-btn");
+const closeBtn = document.getElementById("close-btn");
+const askAiLink = document.getElementById("ask-ai-link");
+const chatbotToggle = document.getElementById("chatbot-toggle");
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
+chatInput.addEventListener("keypress", async function(e) {
+    if (e.key === "Enter" && chatInput.value.trim()) {
+        const userQuestion = chatInput.value.trim();
+        chatOutput.innerHTML += `<p><strong>You:</strong> ${userQuestion}</p>`;
+        chatOutput.scrollTop = chatOutput.scrollHeight;
 
-nav a {
-    color: #05129d;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 8px 16px; /* Smaller padding for links */
-    transition: all 0.3s ease;
-    font-size: 0.95rem; /* Slightly smaller font */
-    border-radius: 20px;
-}
+        const response = await fetchGeminiResponse(userQuestion);
+        setTimeout(() => {
+            chatOutput.innerHTML += `<p><strong>AI:</strong> ${response}</p>`;
+            chatOutput.scrollTop = chatOutput.scrollHeight;
+        }, 500);
+        chatInput.value = "";
+    }
+});
 
-nav a:hover {
-    background-color: #e6b800;
-    color: #1d4e89;
-}
+minimizeBtn.addEventListener("click", function() {
+    chatbot.classList.toggle("minimized");
+    minimizeBtn.textContent = chatbot.classList.contains("minimized") ? "+" : "-";
+});
 
+closeBtn.addEventListener("click", function() {
+    chatbot.classList.add("hidden");
+    chatbotToggle.style.display = "block"; // Show floating button when chatbot is closed
+});
 
-/* Header */
-header {
-    background: linear-gradient(rgba(29, 78, 137, 0.8), rgba(29, 78, 137, 0.8)), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #f9e4b7;
-}
-.hero-overlay h1 {
-    font-family: 'Lora', serif;
-    font-size: 3.5rem;
-    margin: 0;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-}
-.hero-overlay p {
-    font-size: 1.5rem;
-    margin-top: 10px;
-}
+askAiLink.addEventListener("click", function(e) {
+    e.preventDefault(); // Prevent default anchor behavior
+    if (chatbot.classList.contains("hidden")) {
+        chatbot.classList.remove("hidden");
+        chatbot.classList.remove("minimized"); // Ensure it’s fully open
+        minimizeBtn.textContent = "-";
+        chatbotToggle.style.display = "none"; // Hide floating button
+    }
+});
 
-/* Containers */
-.container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px;
-    background-color: #fffcf5;
-    border-radius: 15px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-}
-h2 {
-    color: #1d4e89;
-    font-family: 'Lora', serif;
-    font-size: 2rem;
-    border-bottom: 3px solid #e6b800;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
+chatbotToggle.addEventListener("click", function() {
+    chatbot.classList.remove("hidden");
+    chatbot.classList.remove("minimized"); // Ensure it’s fully open
+    minimizeBtn.textContent = "-";
+    chatbotToggle.style.display = "none"; // Hide floating button
+});
 
-/* Motivation & Marquee */
-.motivation {
-    background-color: #f9e4b7;
-    padding: 25px;
-    margin: 20px 0;
-    border-radius: 10px;
-    font-style: italic;
-    color: #2d3748;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-}
-.marquee {
-    background-color: #e6b800;
-    color: #1d4e89;
-    padding: 15px;
-    margin: 20px 0;
-    font-weight: 600;
-    border-radius: 10px;
-}
+async function fetchGeminiResponse(question) {
+    try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: `Answer this investment-related question: ${question}`
+                    }]
+                }]
+            })
+        });
 
-/* Video Grid */
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 25px;
-    margin: 30px 0;
-}
-iframe {
-    border-radius: 15px;
-    width: 100%;
-    height: 220px;
-    transition: transform 0.3s ease;
-}
-iframe:hover {
-    transform: scale(1.02);
-}
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-/* Tips */
-.tips {
-    background-color: #1d4e89;
-    color: #f9e4b7;
-    padding: 25px;
-    margin: 20px 0;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Collapsible */
-.collapsible {
-    background-color: #1d4e89;
-    color: #f9e4b7;
-    padding: 18px;
-    border: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-    font-size: 1.2rem;
-    border-radius: 10px;
-    margin: 15px 0;
-    transition: background 0.3s ease;
-}
-.collapsible:hover {
-    background-color: #e6b800;
-    color: #1d4e89;
-}
-.content {
-    display: none;
-    padding: 20px;
-    background-color: #f9f7f2;
-    border-radius: 10px;
-}
-.image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 15px;
-    margin: 20px 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Chatbot */
-#chatbot {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 350px;
-    background: linear-gradient(135deg, #1d4e89, #2d3748);
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    color: #f9e4b7;
-    transition: height 0.3s ease;
-}
-.chat-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-.chat-header h3 {
-    margin: 0;
-    font-family: 'Lora', serif;
-}
-#minimize-btn, #close-btn {
-    background-color: #e6b800;
-    color: #1d4e89;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-#minimize-btn:hover, #close-btn:hover {
-    background-color: #f9e4b7;
-}
-#chatbot.minimized {
-    height: 60px;
-    overflow: hidden;
-}
-#chatbot.hidden {
-    display: none;
-}
-#chat-output {
-    height: 220px;
-    overflow-y: auto;
-    border: 1px solid #f9e4b7;
-    padding: 15px;
-    margin-bottom: 15px;
-    background-color: rgba(255, 252, 245, 0.1);
-    border-radius: 10px;
-}
-#chat-input {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    background-color: #f9f7f2;
-    color: #2d3748;
-    font-size: 1rem;
-    outline: none;
-    transition: box-shadow 0.3s ease;
-}
-#chat-input:focus {
-    box-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
-}
-
-/* Floating Button */
-.floating-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    background-color: #e6b800;
-    color: #1d4e89;
-    border: none;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: none;
-    transition: all 0.3s ease;
-    z-index: 99;
-}
-.floating-btn:hover {
-    background-color: #f9e4b7;
-    transform: scale(1.1);
-}
-
-/* Footer */
-footer {
-    background-color: #1d4e89;
-    color: #f9e4b7;
-    text-align: center;
-    padding: 30px;
-    margin-top: 50px;
-}
-footer a {
-    color: #e6b800;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-footer a:hover {
-    color: #fffcf5;
+        const data = await response.json();
+        const generatedText = data.candidates[0].content.parts[0].text;
+        return generatedText || "Sorry, I couldn’t generate a response. Try again!";
+    } catch (error) {
+        console.error("Error fetching Gemini API:", error);
+        return "Oops! Something went wrong with the AI. Please try again later.";
+    }
 }
